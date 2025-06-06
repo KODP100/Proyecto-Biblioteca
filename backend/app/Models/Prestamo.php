@@ -6,26 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prestamo extends Model
 {
-    protected $table = 'prestamos';
-    protected $primaryKey = 'id_prestamo';
-    public $timestamps = true;
+    protected $fillable = [
+        'id_libro',
+        'numero_ejemplares',
+        'fecha_prestamo',
+        'fecha_devolucion_esperada',
+        'id_multa',
+        'monto_multa',
+    ];
 
-    // Relacion con Libro
     public function libro()
     {
         return $this->belongsTo(Libro::class, 'id_libro');
     }
 
 
-    // Relacion con Devolucion
-    public function devolucion()
-    {
-        return $this->hasOne(Devolucion::class, 'id_prestamo');
-    }
-
-    // Relacion con Multa
     public function multa()
     {
-        return $this->hasOne(Multa::class, 'id_prestamo');
+        return $this->belongsTo(Multa::class, 'id_multa');
     }
 }

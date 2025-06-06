@@ -2,25 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Autor extends Model
 {
+    use HasFactory;
+
+    // Nombre correcto de la tabla
     protected $table = 'autores';
-    protected $primaryKey = 'id_autor';
-    public $timestamps = true;
 
-    protected $fillable = ['nombre', 'apellido', 'nacionalidad', 'editorial_id'];
+    // Campos asignables masivamente
+    protected $fillable = [
+        'nombre',
+        'apellido',
+        'nacionalidad',
+    ];
 
-    // Relacion con Libro
+    // Relación con libros (si se usa en el futuro)
     public function libros()
     {
-        return $this->hasMany(Libro::class, 'id_autor');
-    }
-
-    // Relacion con Editorial
-    public function editorial()
-    {
-        return $this->belongsTo(Editorial::class, 'editorial_id');
+        return $this->belongsToMany(Libro::class);
     }
 }

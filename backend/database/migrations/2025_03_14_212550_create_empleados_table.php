@@ -19,16 +19,19 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->unsignedBigInteger('id_departamento');
             $table->unsignedBigInteger('id_municipio');
+            $table->unsignedBigInteger('id_distrito'); // Nueva columna
+            $table->unsignedBigInteger('user_id'); // Relación con users
             $table->date('alta_empleado')->nullable();
             $table->date('baja_empleado')->nullable();
             $table->string('direccion')->nullable();
             $table->timestamps();
-        
-            // Claves foraneas corregidas
+
+    // Claves foráneas
             $table->foreign('id_departamento')->references('id')->on('departamentos')->onDelete('cascade');
             $table->foreign('id_municipio')->references('id')->on('municipios')->onDelete('cascade');
-
-        });
+            $table->foreign('id_distrito')->references('id')->on('distritos')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+    });
     }
 
     /**

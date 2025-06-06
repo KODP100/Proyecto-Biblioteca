@@ -2,23 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Devolucion extends Model
 {
-    protected $table = 'devoluciones';
-    protected $primaryKey = 'id_devolucion';
-    public $timestamps = true;
+    use HasFactory;
 
-    // Relacion con Prestamo
+    protected $table = 'devoluciones'; // 👈 ¡Aquí corriges el nombre de la tabla!
+
+    protected $fillable = [
+        'id_prestamo',
+        'fecha_devolucion',
+        'estado_libro',
+        'observaciones',
+    ];
+
     public function prestamo()
     {
         return $this->belongsTo(Prestamo::class, 'id_prestamo');
-    }
-
-    // Relacion con Multa
-    public function multa()
-    {
-        return $this->hasOne(Multa::class, 'id_devolucion');
     }
 }

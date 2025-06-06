@@ -2,66 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Autor;
+use Illuminate\Http\Request;
 
 class AutorController extends Controller
 {
-    // Listar todos los autores
+    // GET /api/autores
     public function index()
     {
-        // Cargamos autores con su relación de libros y editorial
-        $autores = Autor::with('libros', 'editorial')->get();
-        return response()->json($autores);
+        return Autor::all();
     }
 
-    // Crear un nuevo autor
+    // POST /api/autores
     public function store(Request $request)
     {
-        // Validamos los datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'nacionalidad' => 'required|string|max:255',
-            'editorial_id' => 'required|exists:editoriales,id', // Corregido: 'exists:editoriales,id'
         ]);
 
-        // Creamos el nuevo autor con los datos recibidos
         $autor = Autor::create($request->all());
-        return response()->json($autor, 201); // Retornamos el autor creado
+        return response()->json($autor, 201);
     }
 
-    // Mostrar un autor especifico
+    // GET /api/autores/{id}
     public function show($id)
     {
-        // Obtenemos un autor por su ID, junto con sus libros y la editorial asociada
-        $autor = Autor::with('libros', 'editorial')->findOrFail($id);
-        return response()->json($autor);
+        return Autor::findOrFail($id);
     }
 
-    // Actualizar un autor
+    // PUT/PATCH /api/autores/{id}
     public function update(Request $request, $id)
     {
-        // Validamos los datos del formulario para la actualización
+        $autor = Autor::findOrFail($id);
+
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'nacionalidad' => 'required|string|max:255',
-            'editorial_id' => 'required|exists:editoriales,id', // Corregido: 'exists:editoriales,id'
+            'nombre' => 'sometimes|required|string|max:255',
+            'apellido' => 'sometimes|required|string|max:255',
+            'nacionalidad' => 'sometimes|required|string|max:255',
         ]);
 
-        // Encontramos el autor por su ID y actualizamos sus datos
-        $autor = Autor::findOrFail($id);
         $autor->update($request->all());
         return response()->json($autor);
     }
 
-    // Eliminar un autor
+    // DELETE /api/autores/{id}
     public function destroy($id)
     {
-        // Encontramos el autor por su ID y lo eliminamos
-        $autor = Autor::findOrFail($id);
-        $autor->delete();
-        return response()->json(null, 204); // Retornamos una respuesta vacía 204
+        Autor::destroy($id);
+        return response()->json(null, 204);
     }
 }

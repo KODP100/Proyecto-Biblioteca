@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('devoluciones', function (Blueprint $table) {
-            $table->id();            
-            $table->date('fecha_devolucion');
-            $table->timestamps();
+        Schema::table('libros', function (Blueprint $table) {
+            $table->integer('existencias')->default(0);
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('devoluciones');
+        Schema::table('libros', function (Blueprint $table) {
+            //
+        });
     }
 };

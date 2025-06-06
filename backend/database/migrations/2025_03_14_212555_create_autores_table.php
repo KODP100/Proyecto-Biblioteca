@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('nacionalidad');            
-            $table->foreignId('editorial_id')->constrained('editoriales')->onDelete('cascade');
+            $table->string('nacionalidad');
             $table->timestamps();
         });
     }

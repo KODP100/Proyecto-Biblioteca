@@ -10,8 +10,7 @@ class MultaController extends Controller
     // Listar todas las multas
     public function index()
     {
-        $multas = Multa::with('devolucion')->get();
-        return response()->json($multas);
+        return response()->json(Multa::all());
     }
 
     // Crear una nueva multa
@@ -20,17 +19,16 @@ class MultaController extends Controller
         $request->validate([
             'rango_dias' => 'required|integer',
             'monto' => 'required|numeric',
-            'id_devolucion' => 'required|exists:devoluciones,id_devolucion',
         ]);
 
         $multa = Multa::create($request->all());
         return response()->json($multa, 201);
     }
 
-    // Mostrar una multa especifica
+    // Mostrar una multa específica
     public function show($id)
     {
-        $multa = Multa::with('devolucion')->findOrFail($id);
+        $multa = Multa::findOrFail($id);
         return response()->json($multa);
     }
 
@@ -40,7 +38,6 @@ class MultaController extends Controller
         $request->validate([
             'rango_dias' => 'required|integer',
             'monto' => 'required|numeric',
-            'id_devolucion' => 'required|exists:devoluciones,id_devolucion',
         ]);
 
         $multa = Multa::findOrFail($id);

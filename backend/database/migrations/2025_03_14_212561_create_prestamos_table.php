@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('prestamos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_libro')->constrained('libros')->onDelete('cascade');
+            $table->foreignId('id_libro')->constrained('libros')->onDelete('cascade'); // Relación directa con libros
             $table->integer('numero_ejemplares');
             $table->date('fecha_prestamo');
             $table->date('fecha_devolucion_esperada');
-            $table->foreignId('id_existencia')->constrained('existencias')->onDelete('cascade');
             $table->foreignId('id_multa')->nullable()->constrained('multas')->onDelete('set null');
             $table->decimal('monto_multa', 8, 2)->nullable();
             $table->timestamps();

@@ -3,14 +3,11 @@ import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import DashboardLayout from "../layouts/DashboardLayout.vue";
 import InicioDashboard from "../views/InicioDashboard.vue";
-import DepartamentosView from "../views/DepartamentosView.vue";
-import DistritosView from '../views/DistritosView.vue';
-import MunicipiosView from '../views/MunicipiosView.vue';
-import EmpleadosView from '../views/EmpleadosView.vue';
-import CategoriaView from '../views/CategoriaView.vue';
-import EstadoLibroView from '../views/EstadoLibroView.vue';
 import EditorialesView from '../views/EditorialesView.vue';
-import AutoresView from '../views/AutoresView.vue';
+import LibroView from '../views/LibroView.vue';
+import MultasView  from '../views/MultasView.vue';
+import PrestamosView from '../views/PrestamosView.vue';
+import DevolucionesView from '../views/DevolucionesView.vue';
 
 
 
@@ -23,14 +20,11 @@ const routes = [
     component: DashboardLayout,
     children: [
       { path: "home", component: InicioDashboard },
-      { path: "departamento", component: DepartamentosView },
-      {path: "distritos", component: DistritosView },
-      {path: "municipios", component: MunicipiosView },
-      {path: "empleados", component: EmpleadosView },
-      {path: "categorias", component: CategoriaView },
-      {path: "estadolibros", component: EstadoLibroView },
       {path: "editoriales", component: EditorialesView },
-      {path: "autores", component: AutoresView },
+      {path: "libros", component: LibroView },
+      {path: "multas", component: MultasView },
+      {path: "prestamos", component: PrestamosView },
+      {path: "devoluciones", component: DevolucionesView },
     ],
   },
 ];

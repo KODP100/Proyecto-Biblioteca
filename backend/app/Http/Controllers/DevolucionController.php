@@ -2,55 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Devolucion;
+use Illuminate\Http\Request;
 
 class DevolucionController extends Controller
 {
-    // Listar todas las devoluciones
     public function index()
     {
-        $devoluciones = Devolucion::with('prestamo')->get();
-        return response()->json($devoluciones);
+        return Devolucion::with('prestamo.libro')->paginate(10);
     }
 
-    // Crear una nueva devolucion
     public function store(Request $request)
     {
-        $request->validate([
-            'id_prestamo' => 'required|exists:prestamos,id_prestamo',
+        $data = $request->validate([
+            'id_prestamo' => 'required|exists:prestamos,id|unique:devoluciones,id_prestamo',
             'fecha_devolucion' => 'required|date',
+            'estado_libro' => 'nullable|string|max:255',
+            'observaciones' => 'nullable|string',
         ]);
 
-        $devolucion = Devolucion::create($request->all());
-        return response()->json($devolucion, 201);
+        return Devolucion::create($data);
     }
 
-    // Mostrar una devolucion especifica
-    public function show($id)
-    {
-        $devolucion = Devolucion::with('prestamo')->findOrFail($id);
-        return response()->json($devolucion);
-    }
-
-    // Actualizar una devolucion
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'id_prestamo' => 'required|exists:prestamos,id_prestamo',
+        $devolucion = Devolucion::findOrFail($id);
+
+        $data = $request->validate([
             'fecha_devolucion' => 'required|date',
+            'estado_libro' => 'nullable|string|max:255',
+            'observaciones' => 'nullable|string',
         ]);
 
-        $devolucion = Devolucion::findOrFail($id);
-        $devolucion->update($request->all());
-        return response()->json($devolucion);
+        $devolucion->update($data);
+        return $devolucion;
     }
 
-    // Eliminar una devolucion
     public function destroy($id)
     {
-        $devolucion = Devolucion::findOrFail($id);
-        $devolucion->delete();
-        return response()->json(null, 204);
+        Devolucion::destroy($id);
+        return response()->noContent();
     }
 }

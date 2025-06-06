@@ -18,14 +18,18 @@ return new class extends Migration
             $table->integer('edad');
             $table->string('telefono');
             $table->string('correo')->unique();
-            $table->foreignId('id_departamento')->constrained('departamentos')->onDelete('cascade');;
+            $table->foreignId('id_departamento')->constrained('departamentos')->onDelete('cascade');
             $table->foreignId('id_municipio')->constrained('municipios')->onDelete('cascade');
             $table->foreignId('id_distrito')->constrained('distritos')->onDelete('cascade');
-            $table->date('alta_solicitante')->nullable(); // Fecha de alta
-            $table->date('baja_solicitante')->nullable(); // Fecha de baja
+            $table->unsignedBigInteger('user_id'); // Relación con users
+            $table->date('alta_solicitante')->nullable();
+            $table->date('baja_solicitante')->nullable();
             $table->string('direccion')->nullable();
             $table->timestamps();
-        });
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+    });
+
     }
 
     /**
